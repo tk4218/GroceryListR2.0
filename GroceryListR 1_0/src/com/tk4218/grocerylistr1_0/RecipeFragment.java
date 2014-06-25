@@ -12,6 +12,6 @@ public class RecipeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
     	this.setHasOptionsMenu(true);
        
-    	return inflater.inflate(R.layout.calendar_layout, container, false);
+    	return inflater.inflate(R.layout.calendar_list_item_layout, container, false);
 	}
 }
