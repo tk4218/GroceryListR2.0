@@ -6,20 +6,49 @@
     android:padding="5dp" >
 
   	<ImageView 
-  	    android:id="@+id/calander_list_item_image"
-  	    android:layout_height="100dp" 
-  	    android:layout_width="100dp"
+  	    android:id="@+id/calendar_list_item_image"
+  	    android:layout_height="75dp" 
+  	    android:layout_width="75dp"
   	    android:layout_alignParentRight="true"
   	    android:contentDescription="@string/hello_world"
   	    android:src="@drawable/ic_default_image"/>
-    <TextView 
+  
+  	<TextView 
         android:id="@+id/dayOfWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:text="@string/hello_world" />
+    
+    <TextView
+        android:id="@+id/calendarRecipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dayOfWeek"
+        android:layout_alignParentTop="true"
+        android:paddingTop="1dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="60dp"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/no_recipe" />
+    
+    <TextView
+        android:id="@+id/calendarRecipeDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/dayOfWeek"
+        android:layout_toLeftOf="@+id/calendar_list_item_image"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/no_recipe_description"
+        android:textSize="12sp" />
     
 </RelativeLayout>

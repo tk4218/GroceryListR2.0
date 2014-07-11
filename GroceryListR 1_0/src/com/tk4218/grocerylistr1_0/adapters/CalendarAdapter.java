@@ -37,6 +37,13 @@ public class CalendarAdapter extends ArrayAdapter<Recipe>{
 			view = inflater.inflate(R.layout.calendar_list_item_layout, null);
 		TextView weekday = (TextView)view.findViewById(R.id.dayOfWeek);
 		weekday.setText(dayOfWeek.getWeekDay(position));
+		
+		TextView recipeName = (TextView)view.findViewById(R.id.calendarRecipeName);
+		TextView recipeDescription = (TextView)view.findViewById(R.id.calendarRecipeDescription);
+		if(!calendarRecipes.get(position).getName().equals("")){
+			recipeName.setText(calendarRecipes.get(position).getName());
+			recipeDescription.setText(calendarRecipes.get(position).getDescription());
+		}
 		return view;
 	}
 }
