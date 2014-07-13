@@ -26,36 +26,52 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int ic_default_image=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int list_gradient_bg=0x7f020002;
-        public static final int list_gradient_bg_hover=0x7f020003;
-        public static final int list_gradient_bg_selector=0x7f020004;
-        public static final int tab_bar_background_selected=0x7f020005;
-        public static final int tab_bar_background_selected_pressed=0x7f020006;
-        public static final int tab_bar_background_selector=0x7f020007;
+        public static final int favorite=0x7f020000;
+        public static final int ic_default_image=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int image_bg=0x7f020003;
+        public static final int image_bg_hover=0x7f020004;
+        public static final int image_bg_selector=0x7f020005;
+        public static final int list_gradient_bg=0x7f020006;
+        public static final int list_gradient_bg_hover=0x7f020007;
+        public static final int list_gradient_bg_selector=0x7f020008;
+        public static final int pencil=0x7f020009;
+        public static final int tab_bar_background_selected=0x7f02000a;
+        public static final int tab_bar_background_selected_pressed=0x7f02000b;
+        public static final int tab_bar_background_selector=0x7f02000c;
     }
     public static final class id {
-        public static final int action_settings=0x7f090005;
-        public static final int calendarRecipeDescription=0x7f090004;
-        public static final int calendarRecipeName=0x7f090003;
-        public static final int calendar_list_item_image=0x7f090001;
-        public static final int dayOfWeek=0x7f090002;
+        public static final int action_settings=0x7f09000b;
+        public static final int button_edit_recipe=0x7f090008;
+        public static final int button_favorite=0x7f09000a;
+        public static final int calendarRecipeDescription=0x7f090005;
+        public static final int calendarRecipeName=0x7f090004;
+        public static final int calendar_list_item_image=0x7f090002;
+        public static final int dayOfWeek=0x7f090003;
+        public static final int list_image=0x7f090007;
         public static final int pager=0x7f090000;
+        public static final int recipe_name=0x7f090006;
+        public static final int single_recipe_name=0x7f090001;
+        public static final int text_rating=0x7f090009;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int calendar_list_item_layout=0x7f030001;
+        public static final int activity_recipe_view=0x7f030001;
+        public static final int calendar_list_item_layout=0x7f030002;
+        public static final int recipe_grid_view=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f080000;
+        public static final int recipe_view=0x7f080001;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
+        public static final int default_rating=0x7f060005;
         public static final int hello_world=0x7f060002;
         public static final int no_recipe=0x7f060003;
         public static final int no_recipe_description=0x7f060004;
+        public static final int title_activity_recipe_view=0x7f060006;
     }
     public static final class style {
         public static final int ActionBarTabStyle=0x7f070004;

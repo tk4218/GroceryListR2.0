@@ -6,5 +6,7 @@
     <string name="hello_world">Monday</string>
     <string name="no_recipe">No Recipe</string>
     <string name="no_recipe_description">No Recipe Selected For Today.</string>
+    <string name="default_rating">5.0</string>
+    <string name="title_activity_recipe_view">RecipeViewActivity</string>
 
 </resources>

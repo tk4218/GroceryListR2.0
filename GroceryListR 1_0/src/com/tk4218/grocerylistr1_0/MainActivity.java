@@ -1,14 +1,22 @@
 package com.tk4218.grocerylistr1_0;
 
 
+import java.util.ArrayList;
+
 import com.tk4218.grocerylistr1_0.adapters.TabsPagerAdapter;
+import com.tk4218.grocerylistr1_0.model.Ingredient;
+import com.tk4218.grocerylistr1_0.model.Recipe;
+import com.tk4218.grocerylistr1_0.model.RecipeBook;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -27,12 +35,18 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	RecipeBook recipeBook;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		recipeBook = new RecipeBook();
+    	recipeBook.addRecipe(new Recipe("Stuff",2, "Description","Instructions", new ArrayList<Ingredient>()));
+    	recipeBook.addRecipe(new Recipe("More Stuff",2, "Description","Instructions", new ArrayList<Ingredient>()));
+    	recipeBook.addRecipe(new Recipe("Good Stuff",2, "Description","Instructions", new ArrayList<Ingredient>()));
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -55,17 +69,11 @@ public class MainActivity extends FragmentActivity implements
 					public void onPageSelected(int position) {
 						actionBar.setSelectedNavigationItem(position);
 					}
-
 					@Override
 					public void onPageScrollStateChanged(int arg0) {
-						// TODO Auto-generated method stub
-						
 					}
-
 					@Override
-					public void onPageScrolled(int arg0, float arg1, int arg2) {
-						// TODO Auto-generated method stub
-						
+					public void onPageScrolled(int arg0, float arg1, int arg2) {						
 					}
 				});
 
@@ -101,6 +109,14 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+	}
+	
+	public void viewRecipe(View view){
+		ImageView image = (ImageView) view.findViewById(R.id.list_image);
+		int index= Integer.parseInt((String) image.getContentDescription());
+		Intent intent = new Intent(this, RecipeViewActivity.class);
+		intent.putExtra("recipe", recipeBook.getRecipe(index));
+		startActivity(intent);
 	}
 
 }

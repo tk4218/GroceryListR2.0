@@ -15,13 +15,20 @@ public class CalendarFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
+    	
+    	/*
+    	 * Get the recipes set in the calendar for the week
+    	 */
     	calRecipes = new ArrayList<Recipe>();
     	for(int i = 0; i < 7; i++)
     		calRecipes.add(new Recipe());
     	Recipe newRecipe = new Recipe("Steak", 2, "Some Really Good Steak", "1. Make the steak", null);
     	calRecipes.set(0, newRecipe);
-    	calAdapter = new CalendarAdapter(getActivity(),calRecipes);
     	
+    	/*
+    	 * Set the List adapter to populate the recipes
+    	 */
+    	calAdapter = new CalendarAdapter(getActivity(),calRecipes);
     	setListAdapter(calAdapter);
     }
 }

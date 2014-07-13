@@ -1,3 +1,6 @@
+/**
+ * This class deals with handling tabs. It chooses the right fragment to display when a tab is chosen.
+ */
 package com.tk4218.grocerylistr1_0.adapters;
 
 import android.support.v4.app.Fragment;
@@ -14,6 +17,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
  
+    /**
+     * Returns the corresponding fragment depending on the index.
+     */
     @Override
     public Fragment getItem(int index) {
         switch (index) {
@@ -28,6 +34,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         return null;
     }
  
+    /**
+     * Returns the number of tabs.
+     */
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
