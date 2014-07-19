@@ -4,8 +4,14 @@
  */
 package com.tk4218.grocerylistr1_0.model;
 
-public class Ingredient {
+import java.io.Serializable;
 
+public class Ingredient implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1976158169163065247L;
 	private String name;
 	private int amount;
 	private String measureType;

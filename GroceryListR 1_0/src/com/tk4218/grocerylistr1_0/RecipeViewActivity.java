@@ -1,29 +1,39 @@
 package com.tk4218.grocerylistr1_0;
 
+import com.tk4218.grocerylistr1_0.model.BitmapHandler;
 import com.tk4218.grocerylistr1_0.model.Recipe;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class RecipeViewActivity extends Activity {
-
+	Recipe recipe;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recipe_view);
 		// Show the Up button in the action bar.
-		setupActionBar();
 		
 		Intent intent = getIntent();
-		Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
-		
+		recipe = (Recipe) intent.getSerializableExtra("recipe");
+		setupActionBar();
+
 		this.setContentView(R.layout.activity_recipe_view);
 		
+		ImageView recipeImage = (ImageView) findViewById(R.id.single_recipe_image);
+		String pathName = Environment.getExternalStorageDirectory().toString()
+				+ "/Pictures/RecipeImages/recipeImage_"+recipe.getId()+".jpg";
+		try{
+			recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
+		} catch(Exception e){
+			recipeImage.setImageResource(R.drawable.ic_default_image);
+		}
 		TextView recipeName = (TextView) findViewById(R.id.single_recipe_name);
 		recipeName.setText(recipe.getName());
 	}
@@ -34,6 +44,7 @@ public class RecipeViewActivity extends Activity {
 	private void setupActionBar() {
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setTitle(recipe.getName());
 
 	}
 
