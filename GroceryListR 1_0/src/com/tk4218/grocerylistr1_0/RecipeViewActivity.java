@@ -1,5 +1,7 @@
 package com.tk4218.grocerylistr1_0;
 
+import com.tk4218.grocerylistr1_0.adapters.IngredientListAdapter;
+import com.tk4218.grocerylistr1_0.adapters.ListExpander;
 import com.tk4218.grocerylistr1_0.model.BitmapHandler;
 import com.tk4218.grocerylistr1_0.model.Recipe;
 
@@ -7,9 +9,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class RecipeViewActivity extends Activity {
@@ -24,11 +28,14 @@ public class RecipeViewActivity extends Activity {
 		recipe = (Recipe) intent.getSerializableExtra("recipe");
 		setupActionBar();
 
+		for(int i = 0; i < recipe.getIngredients().size(); i++){
+			Log.d("DEBUG", recipe.getIngredients().get(i).getName());
+		}
 		this.setContentView(R.layout.activity_recipe_view);
 		
 		ImageView recipeImage = (ImageView) findViewById(R.id.single_recipe_image);
 		String pathName = Environment.getExternalStorageDirectory().toString()
-				+ "/Pictures/RecipeImages/recipeImage_"+recipe.getId()+".jpg";
+				+ "/Pictures/GroceryListR/recipeImage_"+recipe.getId()+".jpg";
 		try{
 			recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
 		} catch(Exception e){
@@ -36,6 +43,16 @@ public class RecipeViewActivity extends Activity {
 		}
 		TextView recipeName = (TextView) findViewById(R.id.single_recipe_name);
 		recipeName.setText(recipe.getName());
+		
+		TextView recipeDescription = (TextView) findViewById(R.id.single_recipe_description);
+		recipeDescription.setText(recipe.getDescription());
+		
+		ListView ingredientsList = (ListView) findViewById(R.id.single_recipe_ingredients_list);
+		ingredientsList.setAdapter(new IngredientListAdapter(this, recipe.getIngredients()));
+		ListExpander.getListViewSize(ingredientsList);
+		
+		TextView recipeInstructions = (TextView) findViewById(R.id.single_recipe_instructions);
+		recipeInstructions.setText(recipe.getInstructions()); 
 	}
 
 	/**

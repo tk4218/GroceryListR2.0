@@ -1,6 +1,5 @@
 package com.tk4218.grocerylistr1_0.adapters;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import com.tk4218.grocerylistr1_0.R;
@@ -8,8 +7,6 @@ import com.tk4218.grocerylistr1_0.model.BitmapHandler;
 import com.tk4218.grocerylistr1_0.model.Recipe;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +33,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 		if(convertView == null)
 			view = inflater.inflate(R.layout.recipe_grid_view, null);
 		String pathName = Environment.getExternalStorageDirectory().toString()
-				+ "/Pictures/RecipeImages/recipeImage_"+recipeBook.get(position).getId()+".jpg";
+				+ "/Pictures/GroceryListR/recipeImage_"+recipeBook.get(position).getId()+".jpg";
 		ImageView recipeImage = (ImageView)view.findViewById(R.id.list_image);
 		try{
 			recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));

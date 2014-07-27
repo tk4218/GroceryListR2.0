@@ -1,24 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <ImageView
-        android:id="@+id/single_recipe_image"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/hello_world"
-        android:src="@drawable/ic_default_image" />
-    <TextView
-        android:id="@+id/single_recipe_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_below="@id/single_recipe_image"
-		android:paddingTop="5dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="@string/no_recipe" />
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/single_recipe_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/hello_world"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_default_image" />
+
+        <TextView
+            android:id="@+id/single_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/single_recipe_image"
+            android:paddingTop="5dp"
+            android:text="@string/no_recipe"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_recipe_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/single_recipe_name"
+            android:text="@string/recipe_description"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/single_recipe_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_recipe_description"
+            android:text="@string/hello_world"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/label_recipe_ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/single_recipe_description"
+            android:text="@string/ingredients"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/single_recipe_ingredients_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_recipe_ingredients" />
+
+        <TextView
+            android:id="@+id/label_recipe_instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/single_recipe_ingredients_list"
+            android:text="@string/instructions"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/single_recipe_instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_recipe_instructions"
+            android:text="@string/hello_world"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</ScrollView>

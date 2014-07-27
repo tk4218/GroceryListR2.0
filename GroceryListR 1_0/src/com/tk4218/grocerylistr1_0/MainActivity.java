@@ -121,7 +121,6 @@ public class MainActivity extends FragmentActivity implements
 			Log.d("DEBUG", "Recipe Count: " +recipeBook.getRecipeBookCount());
 			intent.putExtra("recipeBookCount", recipeBook.getRecipeBookCount());
 			startActivity(intent);
-			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -12,7 +12,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -79,7 +78,7 @@ public class RecipeFragment extends Fragment{
 			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					String pathName = Environment.getExternalStorageDirectory().toString()
-							+ "/Pictures/RecipeImages/recipeImage_"+recipeBook.getRecipe(index).getId()+".jpg";
+							+ "/Pictures/GroceryListR/recipeImage_"+recipeBook.getRecipe(index).getId()+".jpg";
 					recipeBook.removeRecipe(recipeBook.getRecipe(index));
 					File file = new File(pathName);
 					file.delete();

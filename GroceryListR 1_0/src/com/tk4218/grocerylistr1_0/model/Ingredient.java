@@ -14,14 +14,18 @@ public class Ingredient implements Serializable{
 	private static final long serialVersionUID = 1976158169163065247L;
 	private String name;
 	private int amount;
+	private String amount2;
 	private String measureType;
 	private String preparation;
+	private boolean optional;
 	
 	public Ingredient(){
-		setName("");
+		setName("No Ingredient");
 		setAmount(0);
+		setAmount2("0/16");
 		setMeasureType("");
 		setPreparation("");
+		setOptional(false);
 	}
 	/**
 	 * Constructor Ingredient() - creates a new Ingredient with given parameters.
@@ -30,11 +34,13 @@ public class Ingredient implements Serializable{
 	 * @param m - Measure Type
 	 * @param p - Preparation
 	 */
-	public Ingredient(String n, int a, String m, String p){
+	public Ingredient(String n, int a, String a2, String m, String p, boolean opt){
 		setName(n);
 		setAmount(a);
+		setAmount2(a2);
 		setMeasureType(m);
 		setPreparation(p);
+		setOptional(opt);
 	}
 	/**
 	 * getName()- Returns the name of the ingredient
@@ -66,6 +72,14 @@ public class Ingredient implements Serializable{
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	
+	public String getAmount2(){
+		return amount2;
+	}
+	
+	public void setAmount2(String amount){
+		amount2 = amount;
+	}
 	/**
 	 * getMeasureType()- returns the measurement type for this ingredient (cups, teaspoons, oz, etc.)
 	 * @return Ingredient.measureType
@@ -93,5 +107,13 @@ public class Ingredient implements Serializable{
 	 */
 	public void setPreparation(String preparation) {
 		this.preparation = preparation;
+	}
+	
+	public void setOptional(boolean opt){
+		optional = opt;
+	}
+	
+	public boolean isOptional(){
+		return optional;
 	}
 }
