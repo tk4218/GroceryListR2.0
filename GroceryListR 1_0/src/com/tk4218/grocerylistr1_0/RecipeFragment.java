@@ -3,6 +3,7 @@ package com.tk4218.grocerylistr1_0;
 import java.io.File;
 
 import com.tk4218.grocerylistr1_0.adapters.RecipeAdapter;
+import com.tk4218.grocerylistr1_0.model.ActivityCommunicator;
 import com.tk4218.grocerylistr1_0.model.RecipeBook;
 
 import android.app.AlertDialog;
@@ -10,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -27,11 +27,6 @@ public class RecipeFragment extends Fragment{
 	RecipeBook recipeBook = new RecipeBook();
 	ActivityCommunicator activityCommunicator;
 
-	public interface ActivityCommunicator{
-		public RecipeBook shareRecipes();
-		public void setRecipes(RecipeBook recipes);
-		public void refreshFragment();
-	}
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
     	this.setHasOptionsMenu(true);
@@ -62,7 +57,7 @@ public class RecipeFragment extends Fragment{
     	ImageView image = (ImageView)cmi.targetView.findViewById(R.id.list_image);
     	int id = Integer.parseInt(image.getContentDescription().toString());
     	menu.add(0, id, 0, "Edit");  
-    	menu.add(0, id, 0, "Remove");
+    	menu.add(0, id, 0, "Delete");
     }
     
     @Override  
@@ -73,12 +68,11 @@ public class RecipeFragment extends Fragment{
 			intent.putExtra("recipe", recipeBook.getRecipe(index));
 			startActivity(intent);
         }  
-        else if(item.getTitle()=="Remove"){
+        else if(item.getTitle()=="Delete"){
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					String pathName = Environment.getExternalStorageDirectory().toString()
-							+ "/Pictures/GroceryListR/recipeImage_"+recipeBook.getRecipe(index).getId()+".jpg";
+					String pathName = recipeBook.getRecipe(index).getImageURL();
 					recipeBook.removeRecipe(recipeBook.getRecipe(index));
 					File file = new File(pathName);
 					file.delete();
@@ -86,7 +80,7 @@ public class RecipeFragment extends Fragment{
 						activityCommunicator = (ActivityCommunicator) getActivity();
 						activityCommunicator.setRecipes(recipeBook);
 					} catch(Exception e){}
-					activityCommunicator.refreshFragment();
+					activityCommunicator.refreshRecipeFragment();
 				}
 			});
 			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

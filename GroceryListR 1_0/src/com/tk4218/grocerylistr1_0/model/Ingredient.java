@@ -6,6 +6,8 @@ package com.tk4218.grocerylistr1_0.model;
 
 import java.io.Serializable;
 
+import android.util.Log;
+
 public class Ingredient implements Serializable{
 
 	/**
@@ -15,17 +17,19 @@ public class Ingredient implements Serializable{
 	private String name;
 	private int amount;
 	private String amount2;
+	private double amount2fraction;
+	private double totalAmount;
 	private String measureType;
 	private String preparation;
 	private boolean optional;
 	
 	public Ingredient(){
 		setName("No Ingredient");
-		setAmount(0);
 		setAmount2("0/16");
 		setMeasureType("");
 		setPreparation("");
 		setOptional(false);
+		setTotalAmount(0);
 	}
 	/**
 	 * Constructor Ingredient() - creates a new Ingredient with given parameters.
@@ -41,6 +45,7 @@ public class Ingredient implements Serializable{
 		setMeasureType(m);
 		setPreparation(p);
 		setOptional(opt);
+		setTotalAmount(amount+amount2fraction);
 	}
 	/**
 	 * getName()- Returns the name of the ingredient
@@ -79,6 +84,21 @@ public class Ingredient implements Serializable{
 	
 	public void setAmount2(String amount){
 		amount2 = amount;
+		String split [] = amount.split("/");
+		amount2fraction = Double.parseDouble(split[0])/Double.parseDouble(split[1]);
+		Log.d("DEBUG", "Fraction: " +amount2fraction );
+	}
+	
+	public double getAmount2Fraction(){
+		return amount2fraction;
+	}
+	public void setTotalAmount(double total){
+		totalAmount = total;
+		amount = (int) (total/1);
+		amount2fraction = total - amount;
+	}
+	public double getTotalAmount(){
+		return totalAmount;
 	}
 	/**
 	 * getMeasureType()- returns the measurement type for this ingredient (cups, teaspoons, oz, etc.)

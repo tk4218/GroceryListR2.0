@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <CheckBox
+        android:id="@+id/checkbox_monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/label_monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/checkbox_monday"
+        android:text="@string/monday"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/label_monday" />
+
+    <TextView
+        android:id="@+id/label_tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/checkbox_tuesday"
+        android:text="@string/tuesday"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/label_tuesday" />
+
+    <TextView
+        android:id="@+id/label_wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/checkbox_wednesday"
+        android:text="@string/wednesday"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_monday"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/label_thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_monday"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/checkbox_thursday"
+        android:text="@string/thursday"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_monday"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/label_thursday" />
+
+    <TextView
+        android:id="@+id/label_friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_monday"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/checkbox_friday"
+        android:text="@string/friday"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_monday"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/label_friday" />
+
+    <TextView
+        android:id="@+id/label_saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_monday"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/checkbox_saturday"
+        android:text="@string/saturday"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_thursday"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/label_sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_thursday"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/checkbox_sunday"
+        android:text="@string/sunday"
+        android:textSize="16sp" />
+
+</RelativeLayout>

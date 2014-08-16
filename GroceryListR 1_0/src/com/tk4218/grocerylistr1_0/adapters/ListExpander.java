@@ -22,12 +22,13 @@ public class ListExpander {
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
+        totalHeight += 60;
       //setting listview item in adapter
         ViewGroup.LayoutParams params = myListView.getLayoutParams();
         params.height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
         myListView.setLayoutParams(params);
         // print height of adapter on log
-        Log.i("height of listItem:", String.valueOf(totalHeight));
+        Log.d("height of listItem:", String.valueOf(totalHeight));
     }
     
 }

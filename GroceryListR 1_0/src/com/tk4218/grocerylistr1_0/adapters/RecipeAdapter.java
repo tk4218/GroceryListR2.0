@@ -7,7 +7,6 @@ import com.tk4218.grocerylistr1_0.model.BitmapHandler;
 import com.tk4218.grocerylistr1_0.model.Recipe;
 
 import android.content.Context;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 		super(context, resource, allRecipes);
 		this.context = context;
 		recipeBook = allRecipes;
-	}
+		if(recipeBook == null)
+			recipeBook = new ArrayList<Recipe>();
+	} 
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
@@ -32,10 +33,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 		View view = convertView;
 		if(convertView == null)
 			view = inflater.inflate(R.layout.recipe_grid_view, null);
-		String pathName = Environment.getExternalStorageDirectory().toString()
-				+ "/Pictures/GroceryListR/recipeImage_"+recipeBook.get(position).getId()+".jpg";
 		ImageView recipeImage = (ImageView)view.findViewById(R.id.list_image);
 		try{
+			String pathName = recipeBook.get(position).getImageURL();
 			recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
 		} catch(Exception e){
 			recipeImage.setImageResource(R.drawable.ic_default_image);
@@ -44,8 +44,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 		recipeImage.setContentDescription(""+recipeBook.indexOf(recipeBook.get(position)));
 		
 		TextView recipeName = (TextView) view.findViewById(R.id.recipe_name);
+		try{
 		recipeName.setText(recipeBook.get(position).getName());
-		
+		}catch(Exception e){}
 		return view;
 	}
 }

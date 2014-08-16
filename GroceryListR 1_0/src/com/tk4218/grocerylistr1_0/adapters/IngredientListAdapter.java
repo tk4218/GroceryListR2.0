@@ -41,8 +41,9 @@ public class IngredientListAdapter extends ArrayAdapter<Ingredient>{
 		if(convertView == null)
 			view = inflater.inflate(R.layout.add_ingredient_list_view, null);
 		String amount1 = "", amount2 = "", preparation = "", optional = "";
-		if(ingredientList.get(position).getAmount() != 0)
-			amount1 = ingredientList.get(position).getAmount() + " ";
+		if(ingredientList.get(position).getAmount() != 0){
+			amount1 = ingredientList.get(position).getAmount()+" ";
+		}
 		if(!ingredientList.get(position).getAmount2().equals("0/16"))
 			amount2 = ingredientList.get(position).getAmount2();
 		if(!ingredientList.get(position).getPreparation().equals(""))

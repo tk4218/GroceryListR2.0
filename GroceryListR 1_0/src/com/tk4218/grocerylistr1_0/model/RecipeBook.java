@@ -21,9 +21,11 @@ public class RecipeBook implements Serializable{
 	public Recipe getRecipe(int index){
 		return recipeBook.get(index);
 	}
+	public void setRecipe(int index, Recipe recipe){
+		recipeBook.set(index, recipe);
+	}
 	public void addRecipe(Recipe recipe){
 		recipeBook.add(recipe);
-		recipeBook.get(recipeBook.size()-1).setId(recipeCount);
 		recipeCount++;
 		Log.d("DEBUG", "Recipe added!");
 	}

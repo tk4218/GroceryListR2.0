@@ -9,16 +9,21 @@ import com.tk4218.grocerylistr1_0.model.BitmapHandler;
 import com.tk4218.grocerylistr1_0.model.Ingredient;
 import com.tk4218.grocerylistr1_0.model.Recipe;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -33,6 +38,7 @@ import android.support.v4.app.NavUtils;
 public class NewRecipeActivity extends Activity {
 
 	static final int REQUEST_CAPTURE_IMAGE = 1;
+    private static final int SELECT_PICTURE = 2;
 	String pathName;
 	OutputStream out;
 	int recipeIndex;
@@ -55,7 +61,6 @@ public class NewRecipeActivity extends Activity {
 		Intent intent = getIntent();
 		recipeIndex = intent.getIntExtra("recipeBookCount",0); 
 		Log.d("DEBUG", "Recipe Index: " + recipeIndex);
-		pathName = Environment.getExternalStorageDirectory().toString() + "/Pictures/GroceryListR/recipeImage_"+recipeIndex+".jpg";
 		image = (ImageView) findViewById(R.id.button_add_image);
 		image.setScaleType(ScaleType.FIT_XY);
 		if(newImage == null){
@@ -64,7 +69,14 @@ public class NewRecipeActivity extends Activity {
 		else{
 			image.setImageBitmap(newImage);
 		}
-		
+		registerForContextMenu(image);
+		image.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				openContextMenu(image);				
+			}
+			
+		});
 		String[] amount = new String[21];
 		for(int i = 0; i< 21; i++)
 			amount[i] = ""+i;
@@ -122,6 +134,7 @@ public class NewRecipeActivity extends Activity {
 		ingredients = new ArrayList<Ingredient>();
 		ingredientList = (ListView) findViewById(R.id.list_add_ingredients);
 		setIngredientList();
+		
 	}
 
 	/**
@@ -160,8 +173,12 @@ public class NewRecipeActivity extends Activity {
 			EditText recipeDescription = (EditText) findViewById(R.id.edit_description);
 			EditText servingSize = (EditText) findViewById(R.id.edit_serving_size);
 			EditText instructions = (EditText) findViewById(R.id.edit_instructions);
-			Recipe newRecipe = new Recipe(recipeName.getText().toString(), Integer.parseInt(servingSize.getText().toString()),
-					recipeDescription.getText().toString(), instructions.getText().toString(), ingredients);
+			Recipe newRecipe = new Recipe(recipeName.getText().toString(), 
+										  Integer.parseInt(servingSize.getText().toString()),
+										  recipeDescription.getText().toString(),
+										  instructions.getText().toString(), 
+										  ingredients);
+			newRecipe.setImageURL(pathName);
 			intent.putExtra("newRecipe", newRecipe);
 			startActivity(intent);
 			finish();
@@ -170,12 +187,53 @@ public class NewRecipeActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void captureImage(View view){
-		image = (ImageView) view.findViewById(R.id.button_add_image);
-		dispatchTakePictureIntent();
-	}
-	
-
+    @Override  
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
+    	super.onCreateContextMenu(menu, v, menuInfo);  
+    	menu.setHeaderTitle("Choose Action"); 
+    	menu.add(0, 0, 0, "Take Picture");  
+    	menu.add(0, 0, 0, "Choose From Gallery");
+    }
+    @Override  
+    public boolean onContextItemSelected(MenuItem item) {  
+    	if(item.getTitle().equals("Take Picture")){
+    		pathName = Environment.getExternalStorageDirectory().toString() 
+    				+ "/Pictures/GroceryListR/recipeImage_"+recipeIndex+".jpg";
+			dispatchTakePictureIntent();
+    		return true;
+    	}
+    	else if(item.getTitle().equals("Choose From Gallery")){
+			Intent intent = new Intent();
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			startActivityForResult(Intent.createChooser(intent, "Select Image"), SELECT_PICTURE);
+    		return true;
+    	}
+    	else
+    		return false;
+    }
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+            // just some safety built in 
+            if( uri == null ) {
+                return null;
+            }
+            // try to retrieve the image from the media store first
+            // this will only work for images selected from gallery
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+            if( cursor != null ){
+                int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                return cursor.getString(column_index);
+            }
+            // this is our fallback here
+            return uri.getPath();
+    }
+ 
 	private void dispatchTakePictureIntent() {
 	    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 	    // Ensure that there's a camera activity to handle the intent
@@ -195,8 +253,13 @@ public class NewRecipeActivity extends Activity {
 	        Log.d("DEBUG", pathName);
 	        BitmapHandler.saveBitmapToFile(pathName, imageBitmap);
 	    }
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            pathName = getPath(selectedImageUri);
+            image.setImageBitmap(BitmapHandler.loadFromFile(pathName));
+	        image.setScaleType(ScaleType.FIT_XY);
+        }
 	}
-	
 	public void addNewIngredient(View view){
 		if(ingredientName.getText().toString().equals("") || (amount1.equals("0") && amount2.equals("0/16")))
 			return;

@@ -15,7 +15,7 @@ public class Recipe implements Serializable{
 	 */
 	private static final long serialVersionUID = 6330147596577614371L;
 	private String name;
-	private int id;
+	private String imageURL;
 	private int servingSize;
 	private String description;
 	private String instructions;
@@ -123,10 +123,10 @@ public class Recipe implements Serializable{
 	public void addIngredient(Ingredient ingredient){
 		ingredients.add(ingredient);
 	}
-	public void setId(int newId){
-		id = newId;
+	public void setImageURL(String url){
+		imageURL = url;
 	}
-	public int getId(){
-		return id;
+	public String getImageURL(){
+		return imageURL;
 	}
 }

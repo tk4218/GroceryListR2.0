@@ -10,8 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
-import com.tk4218.grocerylistr1_0.RecipeFragment.ActivityCommunicator;
 import com.tk4218.grocerylistr1_0.adapters.TabsPagerAdapter;
+import com.tk4218.grocerylistr1_0.model.ActivityCommunicator;
 import com.tk4218.grocerylistr1_0.model.Recipe;
 import com.tk4218.grocerylistr1_0.model.RecipeBook;
 
@@ -46,12 +46,12 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	ViewPager mViewPager;
 	
-	public RecipeBook recipeBook;
-
+	RecipeBook recipeBook, calendarRecipes;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("DEBUG", "Activity Created");
 		recipeBook = new RecipeBook();
+		calendarRecipes = setCalendar();
 		loadContent();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -59,14 +59,22 @@ public class MainActivity extends FragmentActivity implements
 		try{
 			Intent intent = getIntent();
 			Recipe newRecipe = (Recipe) intent.getSerializableExtra("newRecipe");
+			if(newRecipe != null)
+				recipeBook.addRecipe(newRecipe);
 			intent.removeExtra("newRecipe");
-			Log.d("DEBUG", newRecipe.getName());
-			recipeBook.addRecipe(newRecipe);
 			saveContent();
-		} catch(Exception e){ Log.d("DEBUG", "ERROR!");}
-		Log.d("DEBUG", ""+recipeBook.getRecipeBookSize());
-		for(int i = 0; i < recipeBook.getRecipeBookSize(); i++)
-			Log.d("DEBUG", recipeBook.getRecipe(i).getName());
+		} catch(Exception e){ Log.d("DEBUG", "Unable to load new Recipe");}
+
+		try{
+			Intent intent = getIntent();
+			Log.d("DEBUG", "Load Calendar");
+			RecipeBook calendarRecipestemp = (RecipeBook)intent.getSerializableExtra("calendarRecipes");
+			if(calendarRecipestemp != null)
+				calendarRecipes = calendarRecipestemp;
+			intent.removeExtra("calendarRecipes");
+			saveContent();
+		} catch(Exception e){ Log.d("DEBUG","Unable to get recipes from RecipeView"); }
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -147,17 +155,25 @@ public class MainActivity extends FragmentActivity implements
 		int index= Integer.parseInt((String) image.getContentDescription());
 		Intent intent = new Intent(this, RecipeViewActivity.class);
 		intent.putExtra("recipe", recipeBook.getRecipe(index));
+		intent.putExtra("calendarRecipes", calendarRecipes);
 		startActivity(intent);
+		finish();
 	}
 	
 	private void saveContent(){
 		Log.d("DEBUG", "Saving Recipe Book...");
-		FileOutputStream out;
+		FileOutputStream out, out1;
 		try{
 			out = openFileOutput("AllRecipes", Context.MODE_PRIVATE);
 			ObjectOutputStream oOut = new ObjectOutputStream(out);
 			Log.d("DEBUG", "Book Size: "+recipeBook.getRecipeBookSize());
 			oOut.writeObject(recipeBook);
+			oOut.close();
+		} catch(Exception e){}
+		try{
+			out1 = openFileOutput("Calendar", Context.MODE_PRIVATE);
+			ObjectOutputStream oOut = new ObjectOutputStream(out1);
+			oOut.writeObject(calendarRecipes);
 			oOut.close();
 		} catch(Exception e){}
 	}
@@ -169,6 +185,10 @@ public class MainActivity extends FragmentActivity implements
 			ObjectInputStream oIn = new ObjectInputStream(in);
 			recipeBook = (RecipeBook) oIn.readObject();
 			oIn.close();
+			FileInputStream in1 = openFileInput("Calendar");
+			oIn = new ObjectInputStream(in1);
+			calendarRecipes = (RecipeBook) oIn.readObject();
+			oIn.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (StreamCorruptedException e) {
@@ -179,14 +199,33 @@ public class MainActivity extends FragmentActivity implements
 			e.printStackTrace();
 		}
 	}
+	
+	private RecipeBook setCalendar(){
+		RecipeBook calendar = new RecipeBook();
+		for(int i = 0; i < 7; i++){
+			calendar.addRecipe(new Recipe());
+			calendar.getRecipe(i).setName("No Recipe");
+			calendar.getRecipe(i).setDescription("No Recipe Selected For Today");
+			calendar.getRecipe(i).setImageURL("");
+		}
+		return calendar;
+	}
 
-	/*
-	 * These are the 2 implemented methods from the interface RecipeBookSharer
-	 */
+	@Override
+	public RecipeBook shareCalendarRecipes() {
+		return calendarRecipes;
+	}
+
+	@Override
 	public RecipeBook shareRecipes() {
 		return recipeBook;
 	}
-	
+	@Override
+	public void setCalendarRecipes(RecipeBook recipes) {
+		calendarRecipes = recipes;
+		saveContent();
+	}
+
 	@Override
 	public void setRecipes(RecipeBook recipes) {
 		recipeBook = recipes;
@@ -194,7 +233,13 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void refreshFragment() {
+	public void refreshCalendarFragment() {
+		recreate();
+		mViewPager.setCurrentItem(0);
+	}
+
+	@Override
+	public void refreshRecipeFragment() {
 		recreate();
 		mViewPager.setCurrentItem(1);
 	}

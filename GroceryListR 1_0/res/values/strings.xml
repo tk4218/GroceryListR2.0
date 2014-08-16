@@ -19,6 +19,13 @@
     <string name="ingredient_name">Ingredient Name</string>
     <string name="button_new_ingredient">+ New Ingredient </string>
     <string name="optional">Optional</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 
     <string-array name="amount2array">
         <item>0/16</item>

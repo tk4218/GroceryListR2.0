@@ -2,13 +2,16 @@ package com.tk4218.grocerylistr1_0.model;
 
 public class CalendarDay {
 	
-	private String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};;
+	private static String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};;
 	
-	public CalendarDay(){
-	
-	}
-	
-	public String getWeekDay(int index){
+	public static String getWeekDay(int index){
 		return day[index];
+	}
+	public static int dayIndex(String d){
+		for(int i = 0; i < day.length; i++){
+			if(day[i].equals(d))
+				return i;
+		}
+		return 0;
 	}
 }

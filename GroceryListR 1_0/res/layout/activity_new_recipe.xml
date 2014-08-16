@@ -15,7 +15,6 @@
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/hello_world"
-            android:onClick="captureImage"
             android:src="@drawable/ic_default_image" />
 
         <TextView
