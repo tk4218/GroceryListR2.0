@@ -36,7 +36,10 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 		ImageView recipeImage = (ImageView)view.findViewById(R.id.list_image);
 		try{
 			String pathName = recipeBook.get(position).getImageURL();
-			recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
+			if(pathName != null)
+				recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
+			else
+				recipeImage.setImageResource(R.drawable.ic_default_image);
 		} catch(Exception e){
 			recipeImage.setImageResource(R.drawable.ic_default_image);
 		}

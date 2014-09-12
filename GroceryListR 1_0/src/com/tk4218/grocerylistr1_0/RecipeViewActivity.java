@@ -43,7 +43,10 @@ public class RecipeViewActivity extends Activity {
 		ImageView recipeImage = (ImageView) findViewById(R.id.single_recipe_image);
 		String pathName = recipe.getImageURL();
 		try{
-			recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
+			if(pathName != null)
+				recipeImage.setImageBitmap(BitmapHandler.loadFromFile(pathName));
+			else
+				recipeImage.setImageResource(R.drawable.ic_default_image);
 		} catch(Exception e){
 			recipeImage.setImageResource(R.drawable.ic_default_image);
 		}

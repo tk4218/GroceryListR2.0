@@ -12,18 +12,23 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class GroceryListFragment extends ListFragment {
-
+	ArrayList<Ingredient> ingredientList;
+	boolean hideQuantities;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,  
 		    Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
 		ActivityCommunicator communicator = (ActivityCommunicator) getActivity();
 		RecipeBook calendarRecipes = communicator.shareCalendarRecipes();
-		ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
-		
+		ingredientList = new ArrayList<Ingredient>();
+		hideQuantities = false;
 		boolean duplicate = false;
 		for (int i = 0; i < calendarRecipes.getRecipeBookSize(); i++) {
 			
@@ -64,10 +69,30 @@ public class GroceryListFragment extends ListFragment {
 			}
 		}
 		setListAdapter(new GroceryListAdapter(getActivity(),
-				R.layout.grocery_list_layout, ingredientList));
+				R.layout.grocery_list_layout, ingredientList, false));
 		return super.onCreateView(inflater, container, savedInstanceState);  
 	}
-
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+	{
+	    menu.add(Menu.NONE,  /** group ID.. not really needed unless you're working with groups **/
+	              Menu.FIRST,         /** this is the items ID (get this in onOptionsItemSelected to determine what was clicked) **/
+	              Menu.NONE, /** ORDER.. this is what you want to change **/
+	              "Hide Quantities") /** title **/
+	              .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+	   // inflater.inflate(R.menu.main, menu);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case Menu.FIRST:
+			hideQuantities = !hideQuantities;
+			setListAdapter(new GroceryListAdapter(getActivity(),
+					R.layout.grocery_list_layout, ingredientList, hideQuantities));
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	private double Round(double amt){
 		return (double)Math.round(amt *100) / 100;
 	}

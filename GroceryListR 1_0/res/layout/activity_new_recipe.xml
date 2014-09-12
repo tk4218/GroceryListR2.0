@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/editRecipeName"
-            android:hint="@string/recipe_name" />
+            android:hint="@string/recipe_name"
+            android:inputType="textCapWords" />
 
         <TextView
             android:id="@+id/editDescription"
@@ -42,7 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/editDescription"
-            android:hint="@string/recipe_description" />
+            android:hint="@string/recipe_description"
+            android:inputType="textCapSentences" />
 
         <TextView
             android:id="@+id/editServingSize"
@@ -71,7 +73,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editInstructions"
-            android:hint="@string/instructions" />
+            android:hint="@string/instructions"
+            android:inputType="textCapSentences" />
 
         <RelativeLayout
             android:id="@+id/add_ingredient"
@@ -109,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spinner_ingredient_amount"
                 android:hint="@string/ingredient_name"
+                android:inputType="textCapWords"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -118,16 +122,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_below="@id/spinner_ingredient_amount" />
+                android:layout_below="@id/spinner_ingredient_amount"
+                android:layout_marginRight="10dp" />
 
             <TextView
                 android:id="@+id/label_ingredient_optional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spinner_ingredient_amount"
-                android:layout_toLeftOf="@id/checkbox_ingredient_optional"
                 android:layout_margin="5dp"
+                android:layout_toLeftOf="@id/checkbox_ingredient_optional"
                 android:text="@string/optional" />
         </RelativeLayout>
 

@@ -40,12 +40,14 @@ public class NewRecipeActivity extends Activity {
 	static final int REQUEST_CAPTURE_IMAGE = 1;
     private static final int SELECT_PICTURE = 2;
 	String pathName;
+	Recipe editRecipe;
 	OutputStream out;
 	int recipeIndex;
 	ImageView image;
 	Bitmap newImage = null;
+	Boolean edit;
 	ListView ingredientList;
-	EditText ingredientName;
+	EditText ingredientName, recipeName, recipeDescription, servingSize, recipeInstructions;
 	Spinner ingredientAmountSpinner, ingredientAmountSpinner2, 
 	ingredientMeasurementSpinner, ingredientPreparationSpinner;
 	String amount1, amount2, measurement, preparation;
@@ -58,11 +60,24 @@ public class NewRecipeActivity extends Activity {
 		setContentView(R.layout.activity_new_recipe);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		editRecipe = new Recipe();
 		Intent intent = getIntent();
+		try{
+			editRecipe = (Recipe) intent.getSerializableExtra("recipe");
+		}catch(Exception e){
+			Log.d("DEBUG", "New Recipe");
+		}
+		edit = intent.getBooleanExtra("EditRecipe", false);
 		recipeIndex = intent.getIntExtra("recipeBookCount",0); 
+		intent.removeExtra("recipe");
+		intent.removeExtra("EditRecipe");
+		intent.removeExtra("recipeBookCount");
 		Log.d("DEBUG", "Recipe Index: " + recipeIndex);
 		image = (ImageView) findViewById(R.id.button_add_image);
 		image.setScaleType(ScaleType.FIT_XY);
+		if(edit){
+			newImage = BitmapHandler.loadFromFile(editRecipe.getImageURL());
+		}
 		if(newImage == null){
 			image.setImageResource(R.drawable.ic_default_image);
 		}
@@ -77,6 +92,16 @@ public class NewRecipeActivity extends Activity {
 			}
 			
 		});
+		if(edit){
+			recipeName = (EditText) findViewById(R.id.edit_recipe_name);
+			recipeName.setText(editRecipe.getName());
+			recipeDescription = (EditText) findViewById(R.id.edit_description);
+			recipeDescription.setText(editRecipe.getDescription());
+			recipeInstructions = (EditText) findViewById(R.id.edit_instructions);
+			recipeInstructions.setText(editRecipe.getInstructions());
+			servingSize = (EditText) findViewById(R.id.edit_serving_size);
+			servingSize.setText(editRecipe.getServingSize()+"");
+		}
 		String[] amount = new String[21];
 		for(int i = 0; i< 21; i++)
 			amount[i] = ""+i;
@@ -132,6 +157,9 @@ public class NewRecipeActivity extends Activity {
 		});
 		ingredientName = (EditText) findViewById(R.id.edit_ingredient_name);
 		ingredients = new ArrayList<Ingredient>();
+		if(edit){
+			ingredients = editRecipe.getIngredients();
+		}
 		ingredientList = (ListView) findViewById(R.id.list_add_ingredients);
 		setIngredientList();
 		
@@ -173,13 +201,22 @@ public class NewRecipeActivity extends Activity {
 			EditText recipeDescription = (EditText) findViewById(R.id.edit_description);
 			EditText servingSize = (EditText) findViewById(R.id.edit_serving_size);
 			EditText instructions = (EditText) findViewById(R.id.edit_instructions);
+			if(recipeName.getText().toString().equals(""))
+				return true;
+			if(servingSize.getText().toString().equals(""))
+				servingSize.setText("1");
 			Recipe newRecipe = new Recipe(recipeName.getText().toString(), 
 										  Integer.parseInt(servingSize.getText().toString()),
 										  recipeDescription.getText().toString(),
 										  instructions.getText().toString(), 
 										  ingredients);
 			newRecipe.setImageURL(pathName);
+			if(edit){
+				newRecipe.setRecipeID(editRecipe.getRecipeID());
+				newRecipe.setImageURL(editRecipe.getImageURL());
+			}
 			intent.putExtra("newRecipe", newRecipe);
+			intent.putExtra("EditRecipe", edit);
 			startActivity(intent);
 			finish();
 			return true;
@@ -187,6 +224,12 @@ public class NewRecipeActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	@Override
+	public void onBackPressed(){
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+	}
     @Override  
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
     	super.onCreateContextMenu(menu, v, menuInfo);  
@@ -228,7 +271,9 @@ public class NewRecipeActivity extends Activity {
                 int column_index = cursor
                 .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
-                return cursor.getString(column_index);
+                String path = cursor.getString(column_index);
+                cursor.close();
+                return path;
             }
             // this is our fallback here
             return uri.getPath();
@@ -252,12 +297,17 @@ public class NewRecipeActivity extends Activity {
 	        image.setScaleType(ScaleType.FIT_XY);
 	        Log.d("DEBUG", pathName);
 	        BitmapHandler.saveBitmapToFile(pathName, imageBitmap);
+	        if(edit)
+	        	editRecipe.setImageURL(pathName);
 	    }
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             pathName = getPath(selectedImageUri);
+            Log.d("DEBUG", pathName);
             image.setImageBitmap(BitmapHandler.loadFromFile(pathName));
 	        image.setScaleType(ScaleType.FIT_XY);
+	        if(edit)
+	        	editRecipe.setImageURL(pathName);
         }
 	}
 	public void addNewIngredient(View view){

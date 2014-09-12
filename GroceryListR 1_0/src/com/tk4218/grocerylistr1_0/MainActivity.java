@@ -59,9 +59,15 @@ public class MainActivity extends FragmentActivity implements
 		try{
 			Intent intent = getIntent();
 			Recipe newRecipe = (Recipe) intent.getSerializableExtra("newRecipe");
-			if(newRecipe != null)
-				recipeBook.addRecipe(newRecipe);
+			if(newRecipe != null){
+				if(intent.getBooleanExtra("EditRecipe", false)){
+					recipeBook.setRecipeById(newRecipe.getRecipeID(), newRecipe);
+				}
+				else
+					recipeBook.addRecipe(newRecipe);
+			}
 			intent.removeExtra("newRecipe");
+			intent.removeExtra("EditRecipe");
 			saveContent();
 		} catch(Exception e){ Log.d("DEBUG", "Unable to load new Recipe");}
 
@@ -129,6 +135,7 @@ public class MainActivity extends FragmentActivity implements
 			Log.d("DEBUG", "Recipe Count: " +recipeBook.getRecipeBookCount());
 			intent.putExtra("recipeBookCount", recipeBook.getRecipeBookCount());
 			startActivity(intent);
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -160,6 +167,10 @@ public class MainActivity extends FragmentActivity implements
 		finish();
 	}
 	
+	public void viewRecipeFromCalendar(View view){
+
+	}
+
 	private void saveContent(){
 		Log.d("DEBUG", "Saving Recipe Book...");
 		FileOutputStream out, out1;
@@ -244,4 +255,8 @@ public class MainActivity extends FragmentActivity implements
 		mViewPager.setCurrentItem(1);
 	}
 
+	@Override
+	public void changeTab(int index){
+		mViewPager.setCurrentItem(index);
+	}
 }

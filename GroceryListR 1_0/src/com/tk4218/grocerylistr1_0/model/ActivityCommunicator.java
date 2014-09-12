@@ -7,4 +7,5 @@ public interface ActivityCommunicator {
 	public void setRecipes(RecipeBook recipes);
 	public void refreshCalendarFragment();
 	public void refreshRecipeFragment();
+	public void changeTab(int index);
 }

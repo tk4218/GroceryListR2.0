@@ -3,7 +3,6 @@ package com.tk4218.grocerylistr1_0.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.util.Log;
 
 public class RecipeBook implements Serializable{
 	/**
@@ -21,13 +20,28 @@ public class RecipeBook implements Serializable{
 	public Recipe getRecipe(int index){
 		return recipeBook.get(index);
 	}
+	public Recipe getRecipeById(int id){
+		for(int i = 0; i < recipeBook.size(); i++){
+			if(recipeBook.get(i).getRecipeID() == id)
+				return recipeBook.get(i);
+		}
+		return null;
+	}
+	public void setRecipeById(int id, Recipe recipe){
+		for(int i = 0; i < recipeBook.size(); i++){
+			if(recipeBook.get(i).getRecipeID() == id){
+				recipeBook.set(i, recipe);
+				return;
+			}
+		}
+	}
 	public void setRecipe(int index, Recipe recipe){
 		recipeBook.set(index, recipe);
 	}
 	public void addRecipe(Recipe recipe){
+		recipe.setRecipeID(recipeCount);
 		recipeBook.add(recipe);
 		recipeCount++;
-		Log.d("DEBUG", "Recipe added!");
 	}
 	public boolean removeRecipe(Recipe recipe){
 		return recipeBook.remove(recipe);

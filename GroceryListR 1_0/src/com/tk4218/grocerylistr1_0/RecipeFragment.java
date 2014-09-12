@@ -64,9 +64,12 @@ public class RecipeFragment extends Fragment{
     public boolean onContextItemSelected(MenuItem item) {  
     	final int index = item.getItemId();
         if(item.getTitle()=="Edit"){
-			Intent intent = new Intent(getActivity(), RecipeViewActivity.class);
+			Intent intent = new Intent(getActivity(), NewRecipeActivity.class);
 			intent.putExtra("recipe", recipeBook.getRecipe(index));
+			intent.putExtra("recipeBookCount", recipeBook.getRecipe(index).getRecipeID());
+			intent.putExtra("EditRecipe", true);
 			startActivity(intent);
+			getActivity().finish();
         }  
         else if(item.getTitle()=="Delete"){
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -74,8 +77,12 @@ public class RecipeFragment extends Fragment{
 				public void onClick(DialogInterface dialog, int id) {
 					String pathName = recipeBook.getRecipe(index).getImageURL();
 					recipeBook.removeRecipe(recipeBook.getRecipe(index));
-					File file = new File(pathName);
-					file.delete();
+					if(pathName != null){
+						if(pathName.substring(29, 41).equals("GroceryListR")){
+							File file = new File(pathName);
+							file.delete();
+						}
+					}
 					try{
 						activityCommunicator = (ActivityCommunicator) getActivity();
 						activityCommunicator.setRecipes(recipeBook);

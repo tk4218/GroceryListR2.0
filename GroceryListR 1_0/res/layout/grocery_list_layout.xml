@@ -13,10 +13,19 @@
         android:id="@+id/ingredient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/ingredient_checkbox"
         android:text="@string/hello_world"
-        android:textSize="24sp" >
+        android:textStyle="bold"
+        android:textSize="20sp" >
     </TextView>
 
+    <TextView
+        android:id="@+id/ingredient_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ingredient_checkbox"
+        android:layout_below="@id/ingredient_name"
+        android:text="@string/hello_world"
+        android:textSize="16sp" >
+    </TextView>
 </RelativeLayout>

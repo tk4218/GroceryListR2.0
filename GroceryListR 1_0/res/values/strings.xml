@@ -26,6 +26,7 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
+    <string name="hide_recipes">Hide Recipes</string>
 
     <string-array name="amount2array">
         <item>0/16</item>

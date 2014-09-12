@@ -16,6 +16,7 @@ public class Recipe implements Serializable{
 	private static final long serialVersionUID = 6330147596577614371L;
 	private String name;
 	private String imageURL;
+	private int recipeID;
 	private int servingSize;
 	private String description;
 	private String instructions;
@@ -35,6 +36,7 @@ public class Recipe implements Serializable{
 		description = "";
 		instructions = "";
 		ingredients = new ArrayList<Ingredient>();
+		recipeID = 0;
 	}
 	/**
 	 *  Constructor Recipe()- Creates a new Recipe with given parameters.
@@ -50,6 +52,7 @@ public class Recipe implements Serializable{
 		description = d;
 		instructions = i;
 		ingredients = in;
+		recipeID = 0;
 	}
 	
 	/**
@@ -128,5 +131,11 @@ public class Recipe implements Serializable{
 	}
 	public String getImageURL(){
 		return imageURL;
+	}
+	public int getRecipeID(){
+		return recipeID;
+	}
+	public void setRecipeID(int id){
+		recipeID = id;
 	}
 }

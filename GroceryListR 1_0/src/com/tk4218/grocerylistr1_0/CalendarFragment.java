@@ -10,13 +10,17 @@ import com.tk4218.grocerylistr1_0.model.RecipeBook;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
  
 public class CalendarFragment extends ListFragment {
@@ -35,6 +39,23 @@ public class CalendarFragment extends ListFragment {
     	calendarCommunicator = (ActivityCommunicator) getActivity();
     	calRecipes = calendarCommunicator.shareCalendarRecipes();
     	this.registerForContextMenu(this.getListView());
+    	getListView().setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int index,
+					long id) {
+				//TextView weekday = (TextView) view.findViewById(R.id.dayOfWeek);
+				if(!calRecipes.getRecipe(index).getName().equals("No Recipe")){
+					Intent intent = new Intent(getActivity(), RecipeViewActivity.class);
+					intent.putExtra("recipe", calRecipes.getRecipe(index));
+					intent.putExtra("calendarRecipes", calRecipes);
+					startActivity(intent);
+					getActivity().finish();
+				}
+				else{
+					calendarCommunicator.changeTab(1);
+				}
+			}	
+    	});
     	
     	/*
     	 * Set the List adapter to populate the recipes
